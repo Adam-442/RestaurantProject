@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+ 
+    {% block content %}
+
+    {% endblock %}
+
+    {% block footer %}
+    <!--Footer-->
+    <footer>
+        <div class="container" id="footer">
+            <div class="row">
+                <div class="col-lg">
+                    <div class="foot-logo">
+                        <img src="/projectImages/logo-red.svg" alt="Logo">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque ullam deserunt laborum,
+                            laboriosam
+                            veritatis quibusdam blanditiis dolor exercitationem velit commodi quae assumenda incidunt
+                            voluptas.
+                            Corporis ex nulla repellendus ullam nihil!</p>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="foot-links">
+                        <h3 class="foot_title">USEFUL LINKS</h3>
+                        <ul>
+                            <li><a href="#footer">About</a></li>
+                            <li><a href="/#Menu">Menu</a></li>
+                            <li><a href="/#Testimonials">Testimonials</a></li>
+                            <li><a href="#Contacts">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="foot-feed">
+                        <h3 class="foot_title">INSTAGRAM FEEDS</h3>
+                        <div class="feed-pics">
+                            <a href="/detail/1"><img src="/projectImages/meal1.png" alt="meal1"></a>
+                            <a href="/detail/2"><img src="/projectImages/meal2.png" alt="meal2"></a>
+                            <a href="/detail/3"><img src="/projectImages/meal3.png" alt="meal3"></a>
+                            <a href="/detail/4"><img src="/projectImages/meal4.png" alt="meal4"></a>
+                            <a href="/detail/5"><img src="/projectImages/meal5.png" alt="meal5"></a>
+                            <a href="/detail/6"><img src="/projectImages/meal6.png" alt="meal6"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--Cart Modal-->
+    <div class="modal-close" tabindex="-1" role="dialog" id="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cart Content</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="close_cart_modal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm">Item</div>
+                        <div class="col-sm">Price</div>
+                    </div>
+
+                    {# item[0] = meal, item[1] = count #}
+                    {% for id, item in cart_items %}
+                        <div class="row">
+                            <div class="col-sm">{{item[1]}}X - {{item[0].title}}</div>
+                            <div class="col-sm">{{item[0].price}} ({{(item[1]*item[0].price) | round(2)}})</div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="row">
+                        <div class="col-sm">Total</div>
+                        <div class="col-sm" id="total_price">{{total_price | round(2)}}</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-red text-white" data-dismiss="modal" onclick="close_cart_modal()">Close</button>
+                    <form method="GET" action="/sales/order">
+                        <button type="supmit" class="btn btn-primary" data-dismiss="modal">Order Now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Script-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="/app.js"></script>
+    {% endblock %}
+</body>
+
+</html>

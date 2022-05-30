@@ -1,0 +1,265 @@
+{% extends "base.njk" %}
+{% set page_title = "Main Page" %}
+ 
+{% block content %}
+
+    <!-- Top -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="/projectImages/logo-white.svg" class="d-inline-block align-top logo" alt="">
+            </a>
+            <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#Menu" class="nav-link">Menu</a></li>
+                    <li class="nav-item"><a href="#Gallary" class="nav-link">Gallery</a></li>
+                    <li class="nav-item"><a href="#Testimonials" class="nav-link">Testimonials</a></li>
+                    <li class="nav-item"><a href="#Contacts" class="nav-link">Contact Us</a></li>
+                    <li class="nav-item"><a href="#" class="nav-right text-white">Search</a></li>
+                    <li class="nav-item"><a href="#" class="nav-right text-white">Profile</a></li>
+                    <li class="nav-item"><a class="nav-right text-white" onclick="open_cart_modal()">Cart
+                            <div id="cart-v">{{number_of_items}}</div>
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="header">
+
+        <div class="container" style="padding-top: 8rem; padding-bottom: 8rem;">
+            <!--Main Title-->
+            <h1 class="">Party Time</h1>
+
+            <!--Yellow Box-->
+            <div class="yellow_box">
+                <h3>Buy any 2 burgers and get 1.5L Pepsi Free</h3>
+            </div>
+
+            <button class="btn" id="order_now">Order Now</button>
+        </div>
+
+    </div>
+
+    {% if recent_bought.length != 0 %}
+        <div id="Recent" class="container">
+
+            <h2 class="section_title">Your Recent Bought Product</h2>
+
+            <div id="card_deck">
+                {% for meal in recent_bought -%}
+                    <div class="card col-12 col-xxl-2 col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                        <a href='detail/{{meal.id}}'>
+                            <img class="card-img-top" src="/projectImages/{{meal.image}}" alt="{{meal.title}}">
+                            <div class="m-1">
+                                <p>&#11088 {{meal.rating}} rating</p>
+                                <p><strong>{{meal.title}}</strong></p>
+                                <p class="card_description">{{meal.description}}</p>
+                                <div class="m-b" style="display: inline-flex">
+                                    <form action="/sales/cart">
+                                    <input type="text" id="id" name="id" value="{{meal.id}}" hidden>
+                                    <input type="text" id="back" name="back" value="/#Recent" hidden>
+                                    <button type="submit" class="btn text-white" >add to cart</button>
+                                    </form>
+                                    <p style="margin-left: 1rem"> {{meal.price}} SAR</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {%- endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!--Menu-->
+    <div id="Menu">
+        <div class="container">
+            <h2 class="section_title">Want To Eat</h2>
+
+            <div class="text-center">
+                <p>Try our most delicious food and usually take minutes to deliver</p>
+            </div>
+
+            <!--Menu-->
+            <div class="d-flex justify-content-between">
+                <a href="">burger</a>
+                <a href="">pizza</a>
+                <a href="">fast food</a>
+                <a href="">cupcake</a>
+                <a href="">sandwich</a>
+                <a href="">spaghetti</a>
+            </div>
+        </div>
+
+        <div class="bg-yellow">
+            <div class="container">
+
+                <div class="row">
+                    <!--Image-->
+                    <div class="col-12 col-xxl-6 col-xl-6 col-l-6 col-md-6 col-sm-12">
+                        <img class="img-fluid" src="/projectImages/delivery.png" alt="">
+                    </div>
+
+                    <!--Red triangle-->
+                    <div class="col-12 col-xxl-6 col-xl-6 col-lg-6 col-md-6 cpl-sm-12 d-flex align-items-center">
+                        <div class="">
+                            <div class="red-triangle">
+                                <h2 class="text-white">We guarantee 30 minutes delivery</h2>
+                            </div>
+
+                            <div class="text-white m-l-5">
+                                <p>If you are having a meeting, working late at night and need an extra push</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Gallery-->
+    <div id="Gallary" class="container">
+        <h2 class="section_title">Our Most Popular Recipes</h2>
+        <p class="text-center">Try our most delicious food and usually take minutes to deliver</p>
+
+        <!-- Card Container-->
+        <div class="card-deck">
+
+        {% for meal in meals -%}
+        <div class="card col-12 col-xxl-2 col-xl-3 col-lg-3 col-md-3 col-sm-12">
+            <a href='detail/{{meal.id}}'>
+                <img class="card-img-top" src="/projectImages/{{meal.image}}" alt="{{meal.title}}">
+                <div class="m-1">
+                    <p>&#11088 {{meal.rating}} rating</p>
+                    <p><strong>{{meal.title}}</strong></p>
+                    <p class="card_description">{{meal.description}}</p>
+                    <div class="m-b" style="display: inline-flex">
+                        <form action="/sales/cart">
+                        <input type="text" id="id" name="id" value="{{meal.id}}" hidden>
+                        <input type="text" id="back" name="back" value="/#Gallary" hidden>
+                        <button type="submit" class="btn text-white">add to cart</button>
+                        </form>
+                        <p style="margin-left: 1rem"> {{meal.price}} SAR</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {%- endfor %}
+        </div>
+    </div>
+
+
+    <!--Testimonials-->
+    <div id="Testimonials" class="container">
+        <h2 class="section_title">Clients Testimonials</h2>
+        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <div class="row">
+                        <div class="col-12 col-xxl-6 col-xl-6 col-lg-6">
+                            <img class="img-fluid" src="/projectImages/man-eating-burger.png" alt="man-eating-burger">
+                        </div>
+                        <div class="col-12 col-xxl-6 col-xl-6 col-lg-6">
+                            <div style="margin: 2rem;">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu scelerisque ligula, eget
+                                    ornare
+                                    nisl.
+                                    Fusce interdum, tellus interdum vulputate placerat, nibh mi ornare mi, quis sollicitudin quam
+                                    justo
+                                    sit amet
+                                    neque.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                    <div class="row">
+                        <div class="col-12 col-xxl-6 col-xl-6 col-lg-6">
+                            <img class="img-fluid" src="/projectImages/man-eating-burger.png" alt="man-eating-burger">
+                        </div>
+                        <div class="col-12 col-xxl-6 col-xl-6 col-lg-6">
+                            <div style="margin: 2rem;">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu scelerisque ligula, eget
+                                    ornare
+                                    nisl.
+                                    Fusce interdum, tellus interdum vulputate placerat, nibh mi ornare mi, quis sollicitudin quam
+                                    justo
+                                    sit amet
+                                    neque.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-12 col-xxl-6 col-xl-6 col-lg-6">
+                            <img class="img-fluid" src="/projectImages/man-eating-burger.png" alt="man-eating-burger">
+                        </div>
+                        <div class="col-12 col-xxl-6 col-xl-6 col-lg-6">
+                            <div style="margin: 2rem;">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eu scelerisque ligula, eget
+                                    ornare
+                                    nisl.
+                                    Fusce interdum, tellus interdum vulputate placerat, nibh mi ornare mi, quis sollicitudin quam
+                                    justo
+                                    sit amet
+                                    neque.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!--Contacts-->
+    <div id="Contacts" class="contacts" style="margin-top: 2rem;">
+        <div class="row">
+            <div class="col-lg">
+                <div class="contact_info container p-5">
+                    <ul>
+                        <li>
+                            <p class="text-white">phone:<b>+966-13-860-0000</b></p>
+                        </li>
+                        <li>
+                            <img src="/projectImages/clock.svg" alt="Clock">
+                            <p class="text-white">sun-thr 11:00 - 23:00<br>fri-sat 12:00 - 23:00</p>
+                        </li>
+                        <li>
+                            <img src="/projectImages/placeholder.svg" alt="placeholder">
+                            <p class="text-white">123 KFUPM Students Mall<br>Dhahran 34464</p>
+                        </li>
+                        <li class="social">
+                            <a href="" class="text-white">Facebook</a>
+                            <a href="" class="text-white">Twitter</a>
+                            <a href="" class="text-white">Instagram</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg">
+                <img class="img-fluid" src="/projectImages/map.png" alt="Map" class="map">
+            </div>
+        </div>
+    </div>
+{% endblock %}
