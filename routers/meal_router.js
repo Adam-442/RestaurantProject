@@ -44,7 +44,11 @@ function get_cart(req, res, next) {
 }
 
 function indexLoader(req, res, next) {
-    meals_array = model_meal.getAllMeals();    
+    meals_array = model_meal.getAllMeals();
+    meals_array.forEach(meal => {
+        meal.rating = countRate(meal.id);
+    });
+
     next();
 }
 
@@ -56,11 +60,11 @@ function countRate(id){
     review_list = model_meal.getMealReviews(id);
     // count the rate
     rate = 0;
-    if(review_list.length != 0){
+    if (review_list.length != 0) {
         let sum = 0;
         
         review_list.forEach(element => {
-         sum += Number(element.rating);   
+            sum += Number(element.rating);   
         });
         
         rate = sum / review_list.length;
@@ -71,11 +75,7 @@ function countRate(id){
 function mealLoader(req, res, next) {
     selected_meal = model_meal.getMealById(req.params.mealId);
     review_list = model_meal.getMealReviews(req.params.mealId);
-    if(review_list.length == 0 ){
-        has_review = false;
-    }else{
-        has_review = true;
-    }
+    has_review = (review_list.length == 0)? false: true;
     rate = countRate(req.params.mealId);
     next();
 }
